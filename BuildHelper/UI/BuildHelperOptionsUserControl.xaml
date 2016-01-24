@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="BuildHelper.UI.BuildHelperOptionsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BuildHelper.UI"
+             mc:Ignorable="d"
+             d:DataContext="{Binding Source={d:DesignInstance Type=local:DesignTimeOptionsDataSource, IsDesignTimeCreatable=True}}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        </Grid>
+        <ListBox ItemsSource="{Binding Options.Options}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding SolutionName}">
+                            
+                        </TextBox>
+                        <TextBox Text="{Binding ServiceName}">
+                            
+                        </TextBox>
+                        <TextBox Text="{Binding ProcessName}">
+
+                        </TextBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel Grid.Row ="2" Orientation="Horizontal">
+            <UniformGrid Columns="2">
+                <Button Content="Save"/>
+                <Button Content="Cancel"/>
+            </UniformGrid>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
