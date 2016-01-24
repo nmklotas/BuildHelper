@@ -34,7 +34,7 @@ namespace BuildHelper.Build
             if (options.HasSolution(GetSolution(), out option))
             {
                 if (!string.IsNullOrEmpty(option.ProcessName))
-                    m_ProcessStoped = WinHelper.StopProcessIfNeeded(option.ProcessName);
+                    m_ProcessStoped = WinHelper.StopProcessIfNeeded(option.GetSimpleProcessName());
 
                 if (!string.IsNullOrEmpty(option.ServiceName))
                     m_ServiceStoped = WinHelper.StopServiceIfNeeded(option.ServiceName);

@@ -7,6 +7,11 @@
              mc:Ignorable="d"
              d:DataContext="{Binding Source={d:DesignInstance Type=local:DesignTimeOptionsDataSource, IsDesignTimeCreatable=True}}"
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
     <StackPanel>
         <Grid>
             <Grid.RowDefinitions>
@@ -14,33 +19,23 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
         </Grid>
-        <ListBox ItemsSource="{Binding Options.Options}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="3"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding SolutionName}">
-                            
-                        </TextBox>
-                        <TextBox Text="{Binding ServiceName}">
-                            
-                        </TextBox>
-                        <TextBox Text="{Binding ProcessName}">
-
-                        </TextBox>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Row ="2" Orientation="Horizontal">
-            <UniformGrid Columns="2">
-                <Button Content="Save"/>
-                <Button Content="Cancel"/>
+        <DataGrid ItemsSource="{Binding Options.Options}" x:Name="m_DgOptions" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Solution name" 
+                                    Binding="{Binding SolutionName}"
+                                    Width="*">
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Process name" 
+                                    Binding="{Binding ServiceName}"
+                                    Width="2*"/>
+                <DataGridTextColumn Header="Service name" 
+                                    Binding="{Binding ProcessName}"
+                                    Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <UniformGrid Columns="2" Rows="1">
+                <Button Content="Add" Margin="20" Click="AddButtonClick" Width="100"/>
+            <Button Content="Remove" Margin="20" Click="RemoveButtonClick" Width="100"/>
             </UniformGrid>
         </StackPanel>
-    </StackPanel>
 </UserControl>

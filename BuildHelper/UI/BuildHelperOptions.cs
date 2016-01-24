@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -13,7 +15,7 @@ namespace BuildHelper.UI
         OptionsDataSource m_OptionsDatasource;
         private static OptionsDataSource DefaultDataSource = new OptionsDataSource()
         {
-            Options = new List<Option>()
+            Options = new ObservableCollection<Option>()
             {
                 new Option()
                 {
@@ -23,7 +25,6 @@ namespace BuildHelper.UI
                 }
             }
         };
-
 
         public BuildHelperOptions()
         {
@@ -54,7 +55,7 @@ namespace BuildHelper.UI
     [Serializable]
     public class OptionsDataSource
     {
-        public List<Option> Options { get; set; } = new List<Option>();
+        public ObservableCollection<Option> Options { get; set; } = new ObservableCollection<Option>();
 
         public bool HasSolution(string name, out Option option)
         {
@@ -81,6 +82,11 @@ namespace BuildHelper.UI
         public string ProcessName { get; set; }
 
         public string ServiceName { get; set; }
+
+        public string GetSimpleProcessName()
+        {
+            return Path.GetFileNameWithoutExtension(ProcessName);
+        }
     }
 
     public class DesignTimeOptionsDataSource
