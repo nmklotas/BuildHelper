@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using BuildHelper.CodeGuard;
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,22 +14,10 @@ namespace BuildHelper.UI
     public class BuildHelperOptions : UIElementDialogPage
     {
         OptionsDataSource m_OptionsDatasource;
-        private static OptionsDataSource DefaultDataSource = new OptionsDataSource()
-        {
-            Options = new ObservableCollection<Option>()
-            {
-                new Option()
-                {
-                    SolutionName = "Test.sln",
-                    ProcessName = "Notepad.exe",
-                    ServiceName = "Service"
-                }
-            }
-        };
 
         public BuildHelperOptions()
         {
-            m_OptionsDatasource = BuildHelperPackage.Settings.Load() ?? DefaultDataSource;
+            m_OptionsDatasource = BuildHelperPackage.Settings.Load();
         }
 
         public OptionsDataSource Options
@@ -57,20 +46,16 @@ namespace BuildHelper.UI
     {
         public ObservableCollection<Option> Options { get; set; } = new ObservableCollection<Option>();
 
-        public bool HasSolution(string name, out Option option)
+        public void UsingOption(string solutionName, Action<Option> optionsAction)
         {
-            option = null;
+            Guard.That(solutionName).IsNotEmpty();
+            Guard.That(optionsAction).IsNotNull();
 
             foreach (var opt in Options)
             {
-                if (opt.SolutionName.Equals(name, StringComparison.OrdinalIgnoreCase))
-                {
-                    option = opt;
-                    return true;
-                }
+                if (opt.SolutionName.Equals(solutionName, StringComparison.OrdinalIgnoreCase))
+                    optionsAction(opt);
             }
-
-            return false;
         }
     }
 
@@ -91,9 +76,9 @@ namespace BuildHelper.UI
 
     public class DesignTimeOptionsDataSource
     {
-        public List<Option> Options = new List<Option>()
+        public List<Option> Options = new List<Option>
         {
-            new Option()
+            new Option
             {
                 SolutionName = "Test.sln",
                 ProcessName = "Notepad.exe",

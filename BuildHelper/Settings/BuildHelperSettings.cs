@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.Settings;
 using Newtonsoft.Json;
 using System;
+using System.Collections.ObjectModel;
 
 namespace BuildHelper.Settings
 {
@@ -11,6 +12,35 @@ namespace BuildHelper.Settings
         private const string PropertyName = "Settings";
         private static readonly string s_CollectionPath;
         private readonly Lazy<WritableSettingsStore> m_Store;
+
+        private static OptionsDataSource s_DefaultDataSource = new OptionsDataSource()
+        {
+            Options = new ObservableCollection<Option>
+            {
+                #region Default settings
+
+                new Option
+                {
+                    SolutionName = "Desktop.sln",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe",
+                    ServiceName = "ArcGIS Server"
+                },
+                new Option
+                {
+                    SolutionName = "Toolboxes.sln",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe",
+                    ServiceName = "ArcGIS Server"
+                },
+                new Option
+                {
+                    SolutionName = "Extensions.sln",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe",
+                    ServiceName = "ArcGIS Server"
+                }
+
+                 #endregion
+            }
+        };
 
         static BuildHelperSettings()
         {
@@ -37,7 +67,7 @@ namespace BuildHelper.Settings
         public OptionsDataSource Load()
         {
             if (!m_Store.Value.CollectionExists(s_CollectionPath))
-                return null;
+                return s_DefaultDataSource;
 
             return Deserialize(m_Store.Value.GetString(s_CollectionPath, PropertyName));
         }

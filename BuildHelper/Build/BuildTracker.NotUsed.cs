@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+﻿using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Shell.Interop;
 
 namespace BuildHelper.Build
 {
@@ -6,22 +7,22 @@ namespace BuildHelper.Build
     {
         public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
         {
-            return 0;
+            return VSConstants.S_OK;
         }
 
         public int UpdateProjectCfg_Begin(IVsHierarchy pHierProj, IVsCfg pCfgProj, IVsCfg pCfgSln, uint dwAction, ref int pfCancel)
         {
-            return 0;
+            return VSConstants.S_OK;
         }
 
         public int UpdateProjectCfg_Done(IVsHierarchy pHierProj, IVsCfg pCfgProj, IVsCfg pCfgSln, uint dwAction, int fSuccess, int fCancel)
         {
-            return 0;
+            return VSConstants.S_OK;
         }
 
         public int UpdateSolution_StartUpdate(ref int pfCancelUpdate)
         {
-            return 0;
+            return VSConstants.S_OK;
         }
     }
 }

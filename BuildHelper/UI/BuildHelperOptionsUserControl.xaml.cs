@@ -29,5 +29,12 @@ namespace BuildHelper.UI
                 m_Options.Options.Options.Remove(selectedOption);
             }
         }
+        /*
+        private void RefreshDataSource()
+        {
+            var bindingExpression = m_DgOptions.GetBindingExpression(DataGrid.ItemsSourceProperty);
+            if (bindingExpression != null)
+                bindingExpression.UpdateSource();
+        }*/
     }
 }

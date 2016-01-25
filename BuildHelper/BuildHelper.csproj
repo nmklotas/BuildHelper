@@ -52,6 +52,37 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Build\BuildTracker.NotUsed.cs" />
+    <Compile Include="CodeGuard\ArrayValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\BooleanValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\ClassValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\CollectionValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\ComparableValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\EnumerableValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\EnumValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\ErrorInfo.cs" />
+    <Compile Include="CodeGuard\Guard.cs" />
+    <Compile Include="CodeGuard\GuidValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\IArg.cs" />
+    <Compile Include="CodeGuard\IntegerValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\Internals\AccumulateErrorsArg.cs" />
+    <Compile Include="CodeGuard\Internals\ArgBase.cs" />
+    <Compile Include="CodeGuard\Internals\ArgBaseExpression.cs" />
+    <Compile Include="CodeGuard\Internals\ArgName.cs" />
+    <Compile Include="CodeGuard\Internals\ArgNameExpression.cs" />
+    <Compile Include="CodeGuard\Internals\ArgNameFunc.cs" />
+    <Compile Include="CodeGuard\Internals\EnumExtensions.cs" />
+    <Compile Include="CodeGuard\Internals\ErrorHandlerBase.cs" />
+    <Compile Include="CodeGuard\Internals\IMessageHandler.cs" />
+    <Compile Include="CodeGuard\Internals\MathUtil.cs" />
+    <Compile Include="CodeGuard\Internals\MemberInfoReader.cs" />
+    <Compile Include="CodeGuard\Internals\SaveMessageHandler.cs" />
+    <Compile Include="CodeGuard\Internals\StringExtensions.cs" />
+    <Compile Include="CodeGuard\Internals\ThrowMessageHandler.cs" />
+    <Compile Include="CodeGuard\Internals\ThrowOnFirstErrorArg.cs" />
+    <Compile Include="CodeGuard\NullableValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\ObjectValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\StringValidatorExtensions.cs" />
+    <Compile Include="CodeGuard\Validate.cs" />
     <Compile Include="Settings\BuildHelperSettings.cs" />
     <Compile Include="UI\BuildHelperOptions.cs">
       <SubType>Component</SubType>

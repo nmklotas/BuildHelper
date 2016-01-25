@@ -11,6 +11,7 @@ using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Runtime.InteropServices;
 
@@ -70,9 +71,13 @@ namespace BuildHelper
         protected override void Initialize()
         {
             base.Initialize();
-            m_VsInstance = (DTE2)GetService(typeof(DTE));//http://www.wwwlicious.com/2011/03/29/envdte-getting-all-projects-html/
             Settings = new BuildHelperSettings(this);
-            m_BuildTracker = new BuildTracker(m_VsInstance, Settings);
+            m_VsInstance = (DTE2)GetService(typeof(DTE));
+            var solutionBuildManager = (IVsSolutionBuildManager2)GetService(typeof(SVsSolutionBuildManager));
+            var activityLog = (IVsActivityLog)GetService(typeof(SVsActivityLog));
+            var statusBar = (IVsStatusbar)GetService(typeof(SVsStatusbar));
+            var winHelper = new WinHelper(activityLog, statusBar);
+            m_BuildTracker = new BuildTracker(m_VsInstance, solutionBuildManager, Settings, winHelper);
         }
     }
 }
