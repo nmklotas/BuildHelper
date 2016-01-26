@@ -1,4 +1,4 @@
-﻿using BuildHelper.UI;
+﻿using BuildHelper.UI.Data;
 using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell.Settings;
 using Newtonsoft.Json;

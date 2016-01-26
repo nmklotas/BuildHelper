@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using BuildHelper.UI.Data;
+using System.Windows.Controls;
 
 namespace BuildHelper.UI
 {

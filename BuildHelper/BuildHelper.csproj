@@ -9,7 +9,7 @@
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
@@ -62,6 +62,9 @@
     <Compile Include="UI\BuildHelperOptionsUserControl.xaml.cs">
       <DependentUpon>BuildHelperOptionsUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Data\DesignTimeOptionsDataSource.cs" />
+    <Compile Include="UI\Data\Option.cs" />
+    <Compile Include="UI\Data\OptionsDataSource.cs" />
     <Compile Include="WinHelper.cs" />
   </ItemGroup>
   <ItemGroup>

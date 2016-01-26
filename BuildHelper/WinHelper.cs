@@ -1,6 +1,7 @@
 ﻿using EnsureThat;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.IO;
 using System.Linq;
 using System.ServiceProcess;
 using Process = System.Diagnostics.Process;
@@ -99,9 +100,11 @@ namespace BuildHelper
             return false;
         }
 
-        public bool StopProcessIfNeeded(string name, int timeout = 30)
+        public bool StopProcessIfNeeded(string processPath, int timeout = 30)
         {
-            Ensure.That(() => name).IsNotNullOrEmpty();
+            Ensure.That(() => processPath).IsNotNullOrEmpty();
+            string name = Path.GetFileNameWithoutExtension(processPath);
+
             var runningProcesses = Process.GetProcessesByName(name);
             if (runningProcesses.Length == 0)
                 return false;

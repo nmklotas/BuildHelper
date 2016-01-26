@@ -1,9 +1,7 @@
-﻿using EnsureThat;
+﻿using BuildHelper.UI.Data;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -39,51 +37,5 @@ namespace BuildHelper.UI
             base.OnClosed(e);
             BuildHelperPackage.Settings.Save(m_OptionsDatasource);
         }
-    }
-
-    [Serializable]
-    public class OptionsDataSource
-    {
-        public ObservableCollection<Option> Options { get; set; } = new ObservableCollection<Option>();
-
-        public void UsingOption(string solutionName, Action<Option> optionsAction)
-        {
-            Ensure.That(() => solutionName).IsNotNullOrEmpty();
-            Ensure.That(() => optionsAction).IsNotNull();
-
-            foreach (var opt in Options)
-            {
-                if (opt.SolutionName.Equals(solutionName, StringComparison.OrdinalIgnoreCase))
-                    optionsAction(opt);
-            }
-        }
-    }
-
-    [Serializable]
-    public class Option
-    {
-        public string SolutionName { get; set; }
-
-        public string ProcessName { get; set; }
-
-        public string ServiceName { get; set; }
-
-        public string GetSimpleProcessName()
-        {
-            return Path.GetFileNameWithoutExtension(ProcessName);
-        }
-    }
-
-    public class DesignTimeOptionsDataSource
-    {
-        public List<Option> Options = new List<Option>
-        {
-            new Option
-            {
-                SolutionName = "Test.sln",
-                ProcessName = "Notepad.exe",
-                ServiceName = "Service"
-            }
-        };
     }
 }

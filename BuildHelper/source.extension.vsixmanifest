@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="BuildHelper.Julius Paradnikas.807bd23a-5aa3-4227-bbc5-6d72b0ccf034" Version="1.0" Language="en-US" Publisher="Julius Paradnikas" />
+    <Identity Id="BuildHelper.Julius Paradnikas.807bd23a-5aa3-4227-bbc5-6d72b0ccf034" Version="1.0.1" Language="en-US" Publisher="Julius Paradnikas" />
     <DisplayName>BuildHelper</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description xml:space="preserve">Visual Studio 2015 extension used to stop/start/restart services and processes before/after build.</Description>
+    <MoreInfo>https://github.com/nmklotas/BuildHelper</MoreInfo>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0]" />
