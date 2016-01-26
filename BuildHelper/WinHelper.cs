@@ -62,13 +62,13 @@ namespace BuildHelper
             {
                 if (sc.Status == ServiceControllerStatus.Running)
                 {
-                    NotifyInStatusBar($"Stopping {serviceName}");
+                    NotifyInStatusBar($"Stopping {serviceName} ...");
                     sc.Stop();
                     sc.WaitForStatus(ServiceControllerStatus.Stopped);
                 }
                 if (sc.Status == ServiceControllerStatus.StopPending)
                 {
-                    NotifyInStatusBar($"Stopping {serviceName}");
+                    NotifyInStatusBar($"Stopping {serviceName} ...");
                     sc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(timeout));
                 }
             }
@@ -85,8 +85,8 @@ namespace BuildHelper
             {
                 try
                 {
+                    NotifyInStatusBar($"Starting process {name} ...");
                     var process = Process.Start(name);
-                    NotifyInStatusBar($"Process {name} has been started.");
                     return true;
                 }
                 catch (Exception ex)
@@ -110,8 +110,8 @@ namespace BuildHelper
             {
                 try
                 {
+                    NotifyInStatusBar($"Killing process {name} ...");
                     process.Kill();
-                    NotifyInStatusBar($"Process {name} has been killed.");
                 }
                 catch (Exception ex)
                 {
@@ -130,13 +130,13 @@ namespace BuildHelper
             {
                 scServices = ServiceController.GetServices();
 
-                var service = scServices.Where(s =>
-                    s.ServiceName.Equals(serviceName, StringComparison.OrdinalIgnoreCase)).SingleOrDefault();
+                var service = scServices.SingleOrDefault(s =>
+                    s.ServiceName.Equals(serviceName, StringComparison.OrdinalIgnoreCase));
 
                 if (service == null)
                     return false;
 
-                return service.Status == ServiceControllerStatus.Stopped;
+                return service.Status != ServiceControllerStatus.Stopped;
             }
             finally
             {
@@ -189,7 +189,7 @@ namespace BuildHelper
         private void WriteToLog(Exception ex)
         {
             int hr = m_Log.LogEntry((uint)__ACTIVITYLOG_ENTRYTYPE.ALE_ERROR,
-                this.ToString(), "Error has occured: " + ex.Message + " stack trace: " + ex.StackTrace);
+                this.ToString(), "Error has occured: " + ex.Message + "\n Stack trace: " + ex.StackTrace);
         }
     }
 }
