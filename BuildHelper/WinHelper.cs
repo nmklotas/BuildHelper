@@ -1,4 +1,4 @@
-﻿using BuildHelper.CodeGuard;
+﻿using EnsureThat;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Linq;
@@ -14,8 +14,8 @@ namespace BuildHelper
 
         public WinHelper(IVsActivityLog log, IVsStatusbar statusBar)
         {
-            Guard.That(log).IsNotNull();
-            Guard.That(statusBar).IsNotNull();
+            Ensure.That(() => log).IsNotNull();
+            Ensure.That(() => statusBar).IsNotNull();
             m_Log = log;
             m_StatusBar = statusBar;
         }
@@ -26,7 +26,7 @@ namespace BuildHelper
         /// </summary>
         public bool StartServiceIfNeeded(string serviceName, int timeout = 30)
         {
-            Guard.That(serviceName).IsNotEmpty();
+            Ensure.That(() => serviceName).IsNotNullOrEmpty();
             if (ServiceIsRunning(serviceName))
                 return false;
 
@@ -54,7 +54,7 @@ namespace BuildHelper
         /// </summary>
         public bool StopServiceIfNeeded(string serviceName, int timeout = 30)
         {
-            Guard.That(serviceName).IsNotEmpty();
+            Ensure.That(() => serviceName).IsNotNullOrEmpty();
             if (!ServiceIsRunning(serviceName))
                 return false;
 
@@ -79,7 +79,7 @@ namespace BuildHelper
 
         public bool StartProcessIfNeeded(string name, int timeout = 30)
         {
-            Guard.That(name).IsNotEmpty();
+            Ensure.That(() => name).IsNotNullOrEmpty();
             var runningProcesses = Process.GetProcessesByName(name);
             if (runningProcesses.Length == 0)
             {
@@ -101,7 +101,7 @@ namespace BuildHelper
 
         public bool StopProcessIfNeeded(string name, int timeout = 30)
         {
-            Guard.That(name).IsNotEmpty();
+            Ensure.That(() => name).IsNotNullOrEmpty();
             var runningProcesses = Process.GetProcessesByName(name);
             if (runningProcesses.Length == 0)
                 return false;

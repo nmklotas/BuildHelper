@@ -1,4 +1,4 @@
-﻿using BuildHelper.CodeGuard;
+﻿using EnsureThat;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.Collections.Generic;
@@ -48,8 +48,8 @@ namespace BuildHelper.UI
 
         public void UsingOption(string solutionName, Action<Option> optionsAction)
         {
-            Guard.That(solutionName).IsNotEmpty();
-            Guard.That(optionsAction).IsNotNull();
+            Ensure.That(() => solutionName).IsNotNullOrEmpty();
+            Ensure.That(() => optionsAction).IsNotNull();
 
             foreach (var opt in Options)
             {

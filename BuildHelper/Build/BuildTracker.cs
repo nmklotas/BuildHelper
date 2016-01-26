@@ -1,5 +1,5 @@
-﻿using BuildHelper.CodeGuard;
-using BuildHelper.Settings;
+﻿using BuildHelper.Settings;
+using EnsureThat;
 using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -18,10 +18,10 @@ namespace BuildHelper.Build
 
         public BuildTracker(DTE2 vsInstance, IVsSolutionBuildManager2 buildManager, BuildHelperSettings settings, WinHelper winHelper)
         {
-            Guard.That(vsInstance).IsNotNull();
-            Guard.That(settings).IsNotNull();
-            Guard.That(winHelper).IsNotNull();
-            Guard.That(buildManager).IsNotNull();
+            Ensure.That(() => vsInstance).IsNotNull();
+            Ensure.That(() => settings).IsNotNull();
+            Ensure.That(() => winHelper).IsNotNull();
+            Ensure.That(() => buildManager).IsNotNull();
 
             m_VsInstance = vsInstance;
             m_Settings = settings;
