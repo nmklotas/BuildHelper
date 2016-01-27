@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BuildHelper.UI"
+             xmlns:localData="clr-namespace:BuildHelper.UI.Data"
              mc:Ignorable="d"
-             d:DataContext="{Binding Source={d:DesignInstance Type=local:DesignTimeOptionsDataSource, IsDesignTimeCreatable=True}}"
+             d:DataContext="{Binding Source={d:DesignInstance Type=localData:DesignTimeBuildConfigurationDataSource, IsDesignTimeCreatable=True}}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="DataGridColumnHeader">
@@ -23,17 +24,17 @@
             <TextBlock Text="Options for BuildHelper" Margin="5" TextWrapping="Wrap" Grid.Row="0"/>
             <TextBlock Text="Here it's configured what processes and service names will be tracked when building each solution."
                        Margin="5" TextWrapping="Wrap"  Grid.Row="1"/>
-            <DataGrid ItemsSource="{Binding Options.Options}" x:Name="m_DgOptions" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="2">
+            <DataGrid ItemsSource="{Binding DataSource.Configuration}" x:Name="m_DgOptions" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="2">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Solution name" 
-                                            Binding="{Binding SolutionName}"
+                                            Binding="{Binding SolutionName, UpdateSourceTrigger=PropertyChanged}"
                                             Width="*">
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Process name" 
-                                            Binding="{Binding ProcessName}"
+                                            Binding="{Binding ProcessName, UpdateSourceTrigger=PropertyChanged}"
                                             Width="2*"/>
                     <DataGridTextColumn Header="Service name" 
-                                            Binding="{Binding ServiceName}"
+                                            Binding="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}"
                                             Width="2*"/>
                 </DataGrid.Columns>
             </DataGrid>

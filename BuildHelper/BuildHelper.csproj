@@ -62,9 +62,10 @@
     <Compile Include="UI\BuildHelperOptionsUserControl.xaml.cs">
       <DependentUpon>BuildHelperOptionsUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Data\DesignTimeOptionsDataSource.cs" />
-    <Compile Include="UI\Data\Option.cs" />
-    <Compile Include="UI\Data\OptionsDataSource.cs" />
+    <Compile Include="UI\Data\DesignTimeBuildConfigurationDataSource.cs" />
+    <Compile Include="UI\Data\BuildConfiguration.cs" />
+    <Compile Include="UI\Data\BuildConfigurationDataSource.cs" />
+    <Compile Include="UI\Data\IBuildConfigurationProvider.cs" />
     <Compile Include="WinHelper.cs" />
   </ItemGroup>
   <ItemGroup>

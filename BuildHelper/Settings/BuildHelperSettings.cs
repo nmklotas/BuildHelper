@@ -13,28 +13,28 @@ namespace BuildHelper.Settings
         private static readonly string s_CollectionPath;
         private readonly Lazy<WritableSettingsStore> m_Store;
 
-        private static OptionsDataSource s_DefaultDataSource = new OptionsDataSource()
+        private static BuildConfigurationDataSource s_DefaultDataSource = new BuildConfigurationDataSource()
         {
-            Options = new ObservableCollection<Option>
+            Configuration = new ObservableCollection<BuildConfiguration>
             {
                 #region Default settings
 
-                new Option
+                new BuildConfiguration
                 {
                     SolutionName = "Desktop.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
                     ServiceName = "ArcGIS Server"
                 },
-                new Option
+                new BuildConfiguration
                 {
                     SolutionName = "Toolboxes.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
                     ServiceName = "ArcGIS Server"
                 },
-                new Option
+                new BuildConfiguration
                 {
                     SolutionName = "Extensions.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
                     ServiceName = "ArcGIS Server"
                 }
 
@@ -56,7 +56,7 @@ namespace BuildHelper.Settings
             });
         }
 
-        public void Save(OptionsDataSource options)
+        public void Save(BuildConfigurationDataSource options)
         {
             if (!m_Store.Value.CollectionExists(s_CollectionPath))
                 m_Store.Value.CreateCollection(s_CollectionPath);
@@ -64,7 +64,7 @@ namespace BuildHelper.Settings
             m_Store.Value.SetString(s_CollectionPath, PropertyName, Serialize(options));
         }
 
-        public OptionsDataSource Load()
+        public BuildConfigurationDataSource Load()
         {
             if (!m_Store.Value.CollectionExists(s_CollectionPath))
                 return s_DefaultDataSource;
@@ -72,14 +72,14 @@ namespace BuildHelper.Settings
             return Deserialize(m_Store.Value.GetString(s_CollectionPath, PropertyName));
         }
 
-        private string Serialize(OptionsDataSource options)
+        private string Serialize(BuildConfigurationDataSource options)
         {
             return JsonConvert.SerializeObject(options);
         }
 
-        private OptionsDataSource Deserialize(string options)
+        private BuildConfigurationDataSource Deserialize(string options)
         {
-            return JsonConvert.DeserializeObject<OptionsDataSource>(options);
+            return JsonConvert.DeserializeObject<BuildConfigurationDataSource>(options);
         }
     }
 }

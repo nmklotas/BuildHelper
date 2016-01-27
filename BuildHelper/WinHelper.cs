@@ -10,14 +10,14 @@ namespace BuildHelper
 {
     internal class WinHelper
     {
-        private readonly IVsActivityLog m_Log;
+        private readonly Func<IVsActivityLog> m_LogProvider;
         private readonly IVsStatusbar m_StatusBar;
 
-        public WinHelper(IVsActivityLog log, IVsStatusbar statusBar)
+        public WinHelper(Func<IVsActivityLog> logProvider, IVsStatusbar statusBar)
         {
-            Ensure.That(() => log).IsNotNull();
+            Ensure.That(() => logProvider).IsNotNull();
             Ensure.That(() => statusBar).IsNotNull();
-            m_Log = log;
+            m_LogProvider = logProvider;
             m_StatusBar = statusBar;
         }
 
@@ -31,8 +31,10 @@ namespace BuildHelper
             if (ServiceIsRunning(serviceName))
                 return false;
 
-            using (ServiceController sc = new ServiceController(serviceName))
+            ServiceController sc = null;
+            try
             {
+                sc = new ServiceController(serviceName);
                 if (sc.Status == ServiceControllerStatus.Stopped)
                 {
                     NotifyInStatusBar($"Starting {serviceName}");
@@ -45,6 +47,18 @@ namespace BuildHelper
                     sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(timeout));
                 }
             }
+            catch (Exception ex)
+            {
+                WriteToLog(ex);
+                NotifyInStatusBar($"Failed to start service {serviceName} more information exists in the activity log.");
+                return false;
+            }
+            finally
+            {
+                if (sc != null)
+                    sc.Dispose();
+            }
+
 
             NotifyInStatusBar($"Service {serviceName} has started.");
             return true;
@@ -59,8 +73,10 @@ namespace BuildHelper
             if (!ServiceIsRunning(serviceName))
                 return false;
 
-            using (ServiceController sc = new ServiceController(serviceName))
+            ServiceController sc = null;
+            try
             {
+                sc = new ServiceController(serviceName);
                 if (sc.Status == ServiceControllerStatus.Running)
                 {
                     NotifyInStatusBar($"Stopping {serviceName} ...");
@@ -73,28 +89,41 @@ namespace BuildHelper
                     sc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(timeout));
                 }
             }
+            catch (Exception ex)
+            {
+                WriteToLog(ex);
+                NotifyInStatusBar($"Failed to stop service {serviceName} more information exists in the activity log.");
+                return false;
+            }
+            finally
+            {
+                if (sc != null)
+                    sc.Dispose();
+            }
 
             NotifyInStatusBar($"Service {serviceName} has stoped.");
             return true;
         }
 
-        public bool StartProcessIfNeeded(string name, int timeout = 30)
+        public bool StartProcessIfNeeded(string processPath, int timeout = 30)
         {
-            Ensure.That(() => name).IsNotNullOrEmpty();
+            Ensure.That(() => processPath).IsNotNullOrEmpty();
+            string name = Path.GetFileNameWithoutExtension(processPath);
+
             var runningProcesses = Process.GetProcessesByName(name);
-            if (runningProcesses.Length == 0)
+            if (runningProcesses.Length != 0)
+                return false;
+
+            try
             {
-                try
-                {
-                    NotifyInStatusBar($"Starting process {name} ...");
-                    var process = Process.Start(name);
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    NotifyInStatusBar($"Failed to start process {name} more information exists in the activity log.");
-                    WriteToLog(ex);
-                }
+                NotifyInStatusBar($"Starting process {name} ...");
+                var process = Process.Start(processPath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                NotifyInStatusBar($"Failed to start process {name} more information exists in the activity log.");
+                WriteToLog(ex);
             }
 
             return false;
@@ -149,25 +178,6 @@ namespace BuildHelper
             }
         }
 
-        private void UsingService(string serviceName, Action<ServiceController> controllerAction)
-        {
-            ServiceController sc = null;
-            try
-            {
-                sc = new ServiceController(serviceName);
-                controllerAction(sc);
-            }
-            catch (Exception ex)
-            {
-                WriteToLog(ex);
-            }
-            finally
-            {
-                if (sc != null)
-                    sc.Dispose();
-            }
-        }
-
         private void NotifyInStatusBar(string message)
         {
             // Make sure the status bar is not frozen
@@ -191,8 +201,12 @@ namespace BuildHelper
 
         private void WriteToLog(Exception ex)
         {
-            int hr = m_Log.LogEntry((uint)__ACTIVITYLOG_ENTRYTYPE.ALE_ERROR,
+            var log = m_LogProvider();
+            if (log != null)
+            {
+                log.LogEntry((uint)__ACTIVITYLOG_ENTRYTYPE.ALE_ERROR,
                 this.ToString(), "Error has occured: " + ex.Message + "\n Stack trace: " + ex.StackTrace);
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using BuildHelper.UI.Data;
 using Microsoft.VisualStudio.Shell;
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -9,16 +8,16 @@ namespace BuildHelper.UI
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [Guid("1D9ECCF3-5D2F-4112-9B25-264596873DC9")]
-    public class BuildHelperOptions : UIElementDialogPage
+    public class BuildHelperOptions : UIElementDialogPage, IBuildConfigurationDataSourceProvider
     {
-        OptionsDataSource m_OptionsDatasource;
+        BuildConfigurationDataSource m_OptionsDatasource;
 
         public BuildHelperOptions()
         {
             m_OptionsDatasource = BuildHelperPackage.Settings.Load();
         }
 
-        public OptionsDataSource Options
+        public BuildConfigurationDataSource DataSource
         {
             get { return m_OptionsDatasource; }
             set { m_OptionsDatasource = value; }
@@ -34,8 +33,8 @@ namespace BuildHelper.UI
 
         protected override void OnClosed(EventArgs e)
         {
-            base.OnClosed(e);
             BuildHelperPackage.Settings.Save(m_OptionsDatasource);
+            base.OnClosed(e);
         }
     }
 }

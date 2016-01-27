@@ -1,4 +1,5 @@
 ﻿using BuildHelper.UI.Data;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace BuildHelper.UI
@@ -8,34 +9,27 @@ namespace BuildHelper.UI
     /// </summary>
     public partial class BuildHelperOptionsUserControl : UserControl
     {
-        private BuildHelperOptions m_Options;
+        private IBuildConfigurationDataSourceProvider m_Options;
 
-        public BuildHelperOptionsUserControl(BuildHelperOptions options)
+        public BuildHelperOptionsUserControl(IBuildConfigurationDataSourceProvider options)
         {
             InitializeComponent();
             m_Options = options;
-            this.DataContext = m_Options;
+            DataContext = m_Options;
         }
 
-        private void AddButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        private void AddButtonClick(object sender, RoutedEventArgs e)
         {
-            m_Options.Options.Options.Add(new Option());
+            m_Options.DataSource.Configuration.Add(new BuildConfiguration());
         }
 
-        private void RemoveButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        private void RemoveButtonClick(object sender, RoutedEventArgs e)
         {
-            var selectedOption = m_DgOptions.SelectedItem as Option;
+            var selectedOption = m_DgOptions.SelectedItem as BuildConfiguration;
             if (selectedOption != null)
             {
-                m_Options.Options.Options.Remove(selectedOption);
+                m_Options.DataSource.Configuration.Remove(selectedOption);
             }
         }
-        /*
-        private void RefreshDataSource()
-        {
-            var bindingExpression = m_DgOptions.GetBindingExpression(DataGrid.ItemsSourceProperty);
-            if (bindingExpression != null)
-                bindingExpression.UpdateSource();
-        }*/
     }
 }

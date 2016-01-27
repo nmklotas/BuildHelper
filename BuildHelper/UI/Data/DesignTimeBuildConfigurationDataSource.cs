@@ -2,11 +2,11 @@
 
 namespace BuildHelper.UI.Data
 {
-    public class DesignTimeOptionsDataSource
+    public class DesignTimeBuildConfigurationDataSource
     {
-        public ObservableCollection<Option> Options = new ObservableCollection<Option>
+        public ObservableCollection<BuildConfiguration> Configuration = new ObservableCollection<BuildConfiguration>
         {
-            new Option
+            new BuildConfiguration
             {
                 SolutionName = "Test.sln",
                 ProcessName = "Notepad.exe",

@@ -74,9 +74,8 @@ namespace BuildHelper
             Settings = new BuildHelperSettings(this);
             m_VsInstance = (DTE2)GetService(typeof(DTE));
             var solutionBuildManager = (IVsSolutionBuildManager2)GetService(typeof(SVsSolutionBuildManager));
-            var activityLog = (IVsActivityLog)GetService(typeof(SVsActivityLog));
             var statusBar = (IVsStatusbar)GetService(typeof(SVsStatusbar));
-            var winHelper = new WinHelper(activityLog, statusBar);
+            var winHelper = new WinHelper(() => GetService(typeof(SVsActivityLog)) as IVsActivityLog, statusBar); //never cache the activity log reference
             m_BuildTracker = new BuildTracker(m_VsInstance, solutionBuildManager, Settings, winHelper);
         }
     }
