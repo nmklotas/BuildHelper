@@ -13,6 +13,10 @@ namespace BuildHelper.UI.Data
 
         public string ServiceName { get; set; }
 
+        public bool RestartProcess { get; set; }
+
+        public bool RestartService { get; set; }
+
         public List<string> ParseProcessPaths()
         {
             if (string.IsNullOrEmpty(ProcessName))

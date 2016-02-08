@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 
 namespace BuildHelper.Build
 {
-    partial class BuildTracker
+    internal partial class BuildTracker
     {
         public int OnActiveProjectCfgChange(IVsHierarchy pIVsHierarchy)
         {
@@ -24,5 +24,12 @@ namespace BuildHelper.Build
         {
             return VSConstants.S_OK;
         }
+
+        public int UpdateSolution_Cancel()
+        {
+            //if the build is canceled do nothing until it succeeds
+            return VSConstants.S_OK;
+        }
+
     }
 }

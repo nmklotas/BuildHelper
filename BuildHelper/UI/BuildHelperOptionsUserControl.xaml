@@ -6,7 +6,6 @@
              xmlns:local="clr-namespace:BuildHelper.UI"
              xmlns:localData="clr-namespace:BuildHelper.UI.Data"
              mc:Ignorable="d"
-             d:DataContext="{Binding Source={d:DesignInstance Type=localData:DesignTimeBuildConfigurationDataSource, IsDesignTimeCreatable=True}}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <Style TargetType="DataGridColumnHeader">
@@ -36,6 +35,12 @@
                     <DataGridTextColumn Header="Service name" 
                                             Binding="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}"
                                             Width="2*"/>
+                    <DataGridCheckBoxColumn Header="Restart process" 
+                                            Binding="{Binding RestartProcess, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="*"/>
+                    <DataGridCheckBoxColumn Header="Restart service" 
+                                            Binding="{Binding RestartService, UpdateSourceTrigger=PropertyChanged}"
+                                            Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <UniformGrid Columns="2" Rows="1" HorizontalAlignment="Left" Grid.Row="3">

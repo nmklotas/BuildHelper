@@ -1,6 +1,6 @@
 ﻿using BuildHelper.UI.Data;
+using EnsureThat;
 using Microsoft.VisualStudio.Settings;
-using Microsoft.VisualStudio.Shell.Settings;
 using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
@@ -23,22 +23,35 @@ namespace BuildHelper.Settings
                 {
                     SolutionName = "Desktop.sln",
                     ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
-                    ServiceName = "ArcGIS Server"
+                    ServiceName = "ArcGIS Server",
+                    RestartService = true,
+                    RestartProcess = true
                 },
                 new BuildConfiguration
                 {
                     SolutionName = "Toolboxes.sln",
                     ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
-                    ServiceName = "ArcGIS Server"
+                    ServiceName = "ArcGIS Server",
+                    RestartService = true,
+                    RestartProcess = true
                 },
                 new BuildConfiguration
                 {
                     SolutionName = "Extensions.sln",
                     ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
-                    ServiceName = "ArcGIS Server"
+                    ServiceName = "ArcGIS Server",
+                    RestartService = true,
+                    RestartProcess = true
+                },
+                new BuildConfiguration
+                {
+                    SolutionName = "Patch.sln",
+                    ProcessName = "DbTool",
+                    RestartService = false,
+                    RestartProcess = false
                 }
 
-                 #endregion
+                #endregion
             }
         };
 
@@ -47,13 +60,10 @@ namespace BuildHelper.Settings
             s_CollectionPath = typeof(BuildHelperSettings).FullName;
         }
 
-        public BuildHelperSettings(IServiceProvider serviceProvider)
+        public BuildHelperSettings(Lazy<WritableSettingsStore> settingsStore)
         {
-            m_Store = new Lazy<WritableSettingsStore>(() =>
-            {
-                return new ShellSettingsManager(serviceProvider).
-                    GetWritableSettingsStore(SettingsScope.UserSettings);
-            });
+            Ensure.That(() => settingsStore).IsNotNull();
+            m_Store = settingsStore;
         }
 
         public void Save(BuildConfigurationDataSource options)

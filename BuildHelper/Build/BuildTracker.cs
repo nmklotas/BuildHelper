@@ -3,19 +3,18 @@ using EnsureThat;
 using EnvDTE80;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
-using System;
 using System.Collections.Generic;
 using System.IO;
 
 namespace BuildHelper.Build
 {
-    partial class BuildTracker : IVsUpdateSolutionEvents2
+    internal partial class BuildTracker : IVsUpdateSolutionEvents2
     {
         private readonly IVsSolutionBuildManager2 m_BuildManager;
         private readonly BuildHelperSettings m_Settings;
         private readonly DTE2 m_VsInstance;
-        private readonly HashSet<string> m_StopedProcesses = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        private readonly HashSet<string> m_StopedServices = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private readonly HashSet<TrackInfo> m_StopedProcesses = new HashSet<TrackInfo>(TrackInfoEqualityComparer.Default);
+        private readonly HashSet<TrackInfo> m_StopedServices = new HashSet<TrackInfo>(TrackInfoEqualityComparer.Default);
         private readonly WinHelper m_WinHelper;
 
         public BuildTracker(DTE2 vsInstance, IVsSolutionBuildManager2 buildManager, BuildHelperSettings settings, WinHelper winHelper)
@@ -44,23 +43,23 @@ namespace BuildHelper.Build
                 foreach (string process in config.ParseProcessPaths())
                 {
                     if (m_WinHelper.StopProcessIfNeeded(process))
-                        if (!m_StopedProcesses.Contains(process))
-                            m_StopedProcesses.Add(process);
+                    {
+                        var trackInfo = new TrackInfo(process, config.RestartProcess);
+                        if (!m_StopedProcesses.Contains(trackInfo))
+                            m_StopedProcesses.Add(trackInfo);
+                    }
                 }
                 foreach (string service in config.ParseWindowsServicesNames())
                 {
                     if (m_WinHelper.StopServiceIfNeeded(service))
-                        if (!m_StopedServices.Contains(service))
-                            m_StopedServices.Add(service);
+                    {
+                        var trackInfo = new TrackInfo(service, config.RestartService);
+                        if (!m_StopedServices.Contains(trackInfo))
+                            m_StopedServices.Add(trackInfo);
+                    }
                 }
             });
 
-            return VSConstants.S_OK;
-        }
-
-        public int UpdateSolution_Cancel()
-        {
-            //if the build is canceled do nothing until it succeeds
             return VSConstants.S_OK;
         }
 
@@ -70,11 +69,17 @@ namespace BuildHelper.Build
             {
                 try
                 {
-                    foreach (string process in m_StopedProcesses)
-                        m_WinHelper.StartProcessIfNeeded(process);
+                    foreach (TrackInfo process in m_StopedProcesses)
+                    {
+                        if (process.Restart)
+                            m_WinHelper.StartProcessIfNeeded(process.Id);
+                    }
 
-                    foreach (string service in m_StopedServices)
-                        m_WinHelper.StartServiceIfNeeded(service);
+                    foreach (TrackInfo service in m_StopedServices)
+                    {
+                        if (service.Restart)
+                            m_WinHelper.StartServiceIfNeeded(service.Id);
+                    }
                 }
                 finally
                 {

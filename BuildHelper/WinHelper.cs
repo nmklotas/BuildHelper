@@ -117,7 +117,7 @@ namespace BuildHelper
             try
             {
                 NotifyInStatusBar($"Starting process {name} ...");
-                var process = Process.Start(processPath);
+                Process.Start(processPath);
                 return true;
             }
             catch (Exception ex)

@@ -10,8 +10,10 @@ using BuildHelper.UI;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.Settings;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell.Settings;
 using System;
 using System.Runtime.InteropServices;
 
@@ -71,7 +73,14 @@ namespace BuildHelper
         protected override void Initialize()
         {
             base.Initialize();
-            Settings = new BuildHelperSettings(this);
+
+            var settingsStore = new Lazy<WritableSettingsStore>(() =>
+            {
+                return new ShellSettingsManager(this).
+                    GetWritableSettingsStore(SettingsScope.UserSettings);
+            });
+
+            Settings = new BuildHelperSettings(settingsStore);
             m_VsInstance = (DTE2)GetService(typeof(DTE));
             var solutionBuildManager = (IVsSolutionBuildManager2)GetService(typeof(SVsSolutionBuildManager));
             var statusBar = (IVsStatusbar)GetService(typeof(SVsStatusbar));
