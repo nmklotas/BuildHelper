@@ -22,7 +22,7 @@ namespace BuildHelper.Settings
                 new BuildConfiguration
                 {
                     SolutionName = "Desktop.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcCatalog.exe",
                     ServiceName = "ArcGIS Server",
                     RestartService = true,
                     RestartProcess = true
@@ -30,7 +30,7 @@ namespace BuildHelper.Settings
                 new BuildConfiguration
                 {
                     SolutionName = "Toolboxes.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcCatalog.exe",
                     ServiceName = "ArcGIS Server",
                     RestartService = true,
                     RestartProcess = true
@@ -38,7 +38,7 @@ namespace BuildHelper.Settings
                 new BuildConfiguration
                 {
                     SolutionName = "Extensions.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.2\bin\ArcCatalog.exe",
+                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcCatalog.exe",
                     ServiceName = "ArcGIS Server",
                     RestartService = true,
                     RestartProcess = true
