@@ -8,7 +8,7 @@ Error		Unable to copy file "obj\Release\Test.dll" to "..\bin\Release\Test.dll". 
 
 Having to worry if your services/processes using the dlls are stopped before building? Keep forgetting to restart them?
 
-### H3 Then this extension is for you!
+#### Then this extension is for you!
 
 Configure this extension one time (see below) and it will make you more productive, and you will not get this kind of errors again.
 ![BuildHelper options UI](https://github.com/nmklotas/BuildHelper/blob/master/Documents/UI.png "BuildHelper UI")
