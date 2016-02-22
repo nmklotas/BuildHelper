@@ -20,3 +20,5 @@ To configure:
 
 ![BuildHelper options UI](https://github.com/nmklotas/BuildHelper/blob/master/Documents/UI.png "BuildHelper UI")
 
+Download it from Visual Studio Gallery:</br>
+https://visualstudiogallery.msdn.microsoft.com/6288279e-556d-4d6d-858a-4f10c74511d1
