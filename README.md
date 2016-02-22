@@ -10,6 +10,6 @@ Having to worry if your services/processes using the dlls are stopped before bui
 
 Then this extension is for you!
 
-Options user interface:
+Configure this extension one time (see below) and it will make you more productive, and you will not get this kind of errors again.
 ![BuildHelper options UI](https://github.com/nmklotas/BuildHelper/blob/master/Documents/UI.png "BuildHelper UI")
 
