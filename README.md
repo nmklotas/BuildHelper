@@ -13,9 +13,9 @@ Constantly having to worry if your services/processes using the dlls are stopped
 Configure this extension one time (see options window below) and it will make you more productive, and you will not get this kind of errors again.
 
 To configure:
-1. Add solution names for BuildHelper to track.
-2. Add processes and services to stop/start before/after build.
-3. Check "restart checkboxes" if you want them to be automatically restarted after a succesful build
+- Add solution names for BuildHelper to track.
+- Assign processes and services for solution names to stop/start before/after build. If you add more than one use ';' separator.
+- Check "restart checkboxes" if you want them to be automatically restarted after a succesful build
 
 
 ![BuildHelper options UI](https://github.com/nmklotas/BuildHelper/blob/master/Documents/UI.png "BuildHelper UI")
