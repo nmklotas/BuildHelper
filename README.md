@@ -16,6 +16,7 @@ To configure:
 - Add solution names for BuildHelper to track.
 - Assign processes and services for solution names to stop/start before/after build. If you add more than one use ';' separator.
 - Check "restart" checkboxes if you want them to be automatically restarted after a succesful build
+- Make sure that you have required permissions to kill processes and stop services - run Visual Studio as administrator.
 
 
 ![BuildHelper options UI](https://github.com/nmklotas/BuildHelper/blob/master/Documents/UI.png "BuildHelper UI")
