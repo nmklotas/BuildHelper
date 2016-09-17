@@ -54,6 +54,8 @@
     <Compile Include="Build\BuildTracker.NotUsed.cs" />
     <Compile Include="Build\TrackInfo.cs" />
     <Compile Include="Build\TrackInfoEqualityComparer.cs" />
+    <Compile Include="Log\ExtensionLogger.cs" />
+    <Compile Include="Log\IExtensionLogger.cs" />
     <Compile Include="Settings\BuildHelperSettings.cs" />
     <Compile Include="UI\BuildHelperOptions.cs">
       <SubType>Component</SubType>
@@ -67,7 +69,7 @@
     <Compile Include="UI\Data\BuildConfiguration.cs" />
     <Compile Include="UI\Data\BuildConfigurationDataSource.cs" />
     <Compile Include="UI\Data\IBuildConfigurationProvider.cs" />
-    <Compile Include="WinHelper.cs" />
+    <Compile Include="OS\WinHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

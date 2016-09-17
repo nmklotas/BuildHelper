@@ -20,32 +20,50 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Options for BuildHelper" Margin="5" TextWrapping="Wrap" Grid.Row="0"/>
-            <TextBlock Text="Here it's configured what processes and service names will be tracked when building each solution."
-                       Margin="5" TextWrapping="Wrap"  Grid.Row="1"/>
+            <TextBlock 
+                Text="Options for BuildHelper"
+                Margin="5" 
+                TextWrapping="Wrap" 
+                Grid.Row="0"/>
+            <TextBlock 
+                Text="Here it's configured what processes and service names will be tracked when building each solution."
+                Margin="5" 
+                TextWrapping="Wrap"  
+                Grid.Row="1"/>
             <DataGrid ItemsSource="{Binding DataSource.Configuration}" x:Name="m_DgOptions" AutoGenerateColumns="False" CanUserAddRows="False" Grid.Row="2">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Solution name" 
-                                            Binding="{Binding SolutionName, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="*">
+                    <DataGridTextColumn 
+                        Header="Solution name" 
+                        Binding="{Binding SolutionName, UpdateSourceTrigger=PropertyChanged}"
+                        Width="*">
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Process name" 
-                                            Binding="{Binding ProcessName, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="2*"/>
-                    <DataGridTextColumn Header="Service name" 
-                                            Binding="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="2*"/>
+                    <DataGridTextColumn 
+                        Header="Process name" 
+                        Binding="{Binding ProcessName, UpdateSourceTrigger=PropertyChanged}"
+                        Width="2*"/>
+                    <DataGridTextColumn 
+                        Header="Service name" 
+                        Binding="{Binding ServiceName, UpdateSourceTrigger=PropertyChanged}"
+                        Width="2*"/>
                     <DataGridCheckBoxColumn Header="Restart process" 
-                                            Binding="{Binding RestartProcess, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="*"/>
+                        Binding="{Binding RestartProcess, UpdateSourceTrigger=PropertyChanged}"
+                        Width="*"/>
                     <DataGridCheckBoxColumn Header="Restart service" 
-                                            Binding="{Binding RestartService, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="*"/>
+                        Binding="{Binding RestartService, UpdateSourceTrigger=PropertyChanged}"
+                        Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
             <UniformGrid Columns="2" Rows="1" HorizontalAlignment="Left" Grid.Row="3">
-                <Button Content="Add" Margin="10" Click="AddButtonClick" Width="80"/>
-                <Button Content="Remove" Margin="10" Click="RemoveButtonClick" Width="80"/>
+                <Button 
+                    Content="Add" 
+                    Margin="10" 
+                    Click="AddButtonClick" 
+                    Padding="15, 5, 15, 5"/>
+                <Button 
+                    Content="Remove" 
+                    Margin="10" 
+                    Click="RemoveButtonClick" 
+                    Padding="15, 5, 15, 5"/>
             </UniformGrid>
         </Grid>
     </StackPanel>
