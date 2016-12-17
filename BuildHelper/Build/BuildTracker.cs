@@ -16,26 +16,28 @@ namespace BuildHelper.Build
 		private readonly DTE2 m_VsInstance;
 		private readonly HashSet<TrackInfo> m_StopedProcesses = new HashSet<TrackInfo>(TrackInfoEqualityComparer.Default);
 		private readonly HashSet<TrackInfo> m_StopedServices = new HashSet<TrackInfo>(TrackInfoEqualityComparer.Default);
-		private readonly WinHelper m_WinHelper;
+        private readonly ServiceHelper m_ServiceHelper;
+        private readonly ProcessHelper m_ProcessHelper;
 
-		public BuildTracker(
+        public BuildTracker(
 			DTE2 vsInstance,
 			IVsSolutionBuildManager2 buildManager,
 			BuildHelperSettings settings,
-			WinHelper winHelper)
+			ServiceHelper serviceHelper,
+            ProcessHelper processHelper)
 		{
 			Ensure.That(() => vsInstance).IsNotNull();
 			Ensure.That(() => settings).IsNotNull();
-			Ensure.That(() => winHelper).IsNotNull();
-			Ensure.That(() => buildManager).IsNotNull();
+			Ensure.That(() => serviceHelper).IsNotNull();
+            Ensure.That(() => processHelper).IsNotNull();
+            Ensure.That(() => buildManager).IsNotNull();
 
 			m_VsInstance = vsInstance;
 			m_Settings = settings;
-			m_WinHelper = winHelper;
-
-			uint pdwCookieSolutionBM;
-			m_BuildManager = buildManager;
-			m_BuildManager.AdviseUpdateSolutionEvents(this, out pdwCookieSolutionBM);
+			m_ServiceHelper = serviceHelper;
+            m_ProcessHelper = processHelper;
+            m_BuildManager = buildManager;
+			m_BuildManager.AdviseUpdateSolutionEvents(this, out uint pdwCookieSolutionBM);
 		}
 
 		public int UpdateSolution_Begin(ref int pfCancelUpdate)
@@ -47,7 +49,7 @@ namespace BuildHelper.Build
 			{
 				foreach (string process in config.ParseProcessPaths())
 				{
-					if (m_WinHelper.StopProcessIfNeeded(process))
+					if (m_ProcessHelper.StopProcessIfNeeded(process))
 					{
 						var trackInfo = new TrackInfo(process, config.RestartProcess);
 						if (!m_StopedProcesses.Contains(trackInfo))
@@ -56,7 +58,7 @@ namespace BuildHelper.Build
 				}
 				foreach (string service in config.ParseWindowsServicesNames())
 				{
-					if (m_WinHelper.StopServiceIfNeeded(service))
+					if (m_ServiceHelper.StopServiceIfNeeded(service))
 					{
 						var trackInfo = new TrackInfo(service, config.RestartService);
 						if (!m_StopedServices.Contains(trackInfo))
@@ -77,13 +79,13 @@ namespace BuildHelper.Build
 					foreach (TrackInfo process in m_StopedProcesses)
 					{
 						if (process.Restart)
-							m_WinHelper.StartProcessIfNeeded(process.Id);
+							m_ProcessHelper.StartProcessIfNeeded(process.Id);
 					}
 
 					foreach (TrackInfo service in m_StopedServices)
 					{
 						if (service.Restart)
-							m_WinHelper.StartServiceIfNeeded(service.Id);
+							m_ServiceHelper.StartServiceIfNeeded(service.Id);
 					}
 				}
 				finally

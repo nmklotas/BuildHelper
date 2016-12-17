@@ -87,8 +87,15 @@ namespace BuildHelper
 			var solutionBuildManager = (IVsSolutionBuildManager2)GetService(typeof(SVsSolutionBuildManager));
 			var statusBar = (IVsStatusbar)GetService(typeof(SVsStatusbar));
 			var logger = new ExtensionLogger(() => GetService(typeof(SVsActivityLog)) as IVsActivityLog, statusBar);
-			var winHelper = new WinHelper(logger); //never cache the activity log reference
-			m_BuildTracker = new BuildTracker(m_VsInstance, solutionBuildManager, Settings, winHelper);
+            //never cache the activity log reference
+            var serviceHelper = new ServiceHelper(logger); 
+            var processHelper = new ProcessHelper(logger);
+			m_BuildTracker = new BuildTracker(
+                m_VsInstance, 
+                solutionBuildManager, 
+                Settings, 
+                serviceHelper, 
+                processHelper);
 		}
 	}
 }

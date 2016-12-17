@@ -1,18 +1,16 @@
-﻿using System;
-using System.IO;
+﻿using BuildHelper.Log;
+using EnsureThat;
+using System;
 using System.Linq;
 using System.ServiceProcess;
-using BuildHelper.Log;
-using EnsureThat;
-using Process = System.Diagnostics.Process;
 
 namespace BuildHelper.OS
 {
-	internal class WinHelper
+    internal class ServiceHelper
 	{
 		private readonly IExtensionLogger m_ExtensionLogger;
 
-		public WinHelper(IExtensionLogger extensionLogger)
+		public ServiceHelper(IExtensionLogger extensionLogger)
 		{
 			Ensure.That(() => extensionLogger).IsNotNull();
 			m_ExtensionLogger = extensionLogger;
@@ -98,56 +96,6 @@ namespace BuildHelper.OS
 			}
 
 			WriteStatus($"Service {serviceName} has stoped.");
-			return true;
-		}
-
-		public bool StartProcessIfNeeded(string processPath, int timeout = 30)
-		{
-			Ensure.That(() => processPath).IsNotNullOrEmpty();
-			string name = Path.GetFileNameWithoutExtension(processPath);
-
-			var runningProcesses = Process.GetProcessesByName(name);
-			if (runningProcesses.Length != 0)
-				return false;
-
-			try
-			{
-				WriteStatus($"Starting process {name} ...");
-				Process.Start(processPath);
-				return true;
-			}
-			catch (Exception ex)
-			{
-				WriteStatus($"Failed to start process {name} more information exists in the activity log.");
-				WriteException(ex);
-			}
-
-			return false;
-		}
-
-		public bool StopProcessIfNeeded(string processPath, int timeout = 30)
-		{
-			Ensure.That(() => processPath).IsNotNullOrEmpty();
-			string name = Path.GetFileNameWithoutExtension(processPath);
-
-			var runningProcesses = Process.GetProcessesByName(name);
-			if (runningProcesses.Length == 0)
-				return false;
-
-			foreach (var process in runningProcesses)
-			{
-				try
-				{
-					WriteStatus($"Killing process {name} ...");
-					process.Kill();
-				}
-				catch (Exception ex)
-				{
-					WriteStatus($"Failed to kill process {name} more information exists in the activity log.");
-					WriteException(ex);
-				}
-			}
-
 			return true;
 		}
 

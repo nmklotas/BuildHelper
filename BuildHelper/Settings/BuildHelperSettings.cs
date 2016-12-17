@@ -17,41 +17,14 @@ namespace BuildHelper.Settings
         {
             Configuration = new ObservableCollection<BuildConfiguration>
             {
-                #region Default settings
-
                 new BuildConfiguration
                 {
-                    SolutionName = "Desktop.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcCatalog.exe",
-                    ServiceName = "ArcGIS Server",
+                    SolutionName = "Test.sln",
+                    ProcessName = @"C:\Program Files (x86)\TestProgram\Test.exe",
+                    ServiceName = "TestService",
                     RestartService = true,
                     RestartProcess = true
-                },
-                new BuildConfiguration
-                {
-                    SolutionName = "Toolboxes.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcCatalog.exe",
-                    ServiceName = "ArcGIS Server",
-                    RestartService = true,
-                    RestartProcess = true
-                },
-                new BuildConfiguration
-                {
-                    SolutionName = "Extensions.sln",
-                    ProcessName = @"C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcMap.exe;C:\Program Files (x86)\ArcGIS\Desktop10.3\bin\ArcCatalog.exe",
-                    ServiceName = "ArcGIS Server",
-                    RestartService = true,
-                    RestartProcess = true
-                },
-                new BuildConfiguration
-                {
-                    SolutionName = "Patch.sln",
-                    ProcessName = "DbTool",
-                    RestartService = false,
-                    RestartProcess = false
                 }
-
-                #endregion
             }
         };
 
