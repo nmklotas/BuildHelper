@@ -1,6 +1,6 @@
 # BuildHelper
 
-_Visual Studio 2013/2015 extension used to stop/start/restart services and processes before/after build._
+_Visual Studio 2017/2015/2013 extension used to stop/start/restart services and processes before/after build._
 
 Constantly getting errors like the ones below? </br>
 _Error		Could not copy "obj\Release\Test.dll" to "..\bin\Release\Test.dll". Exceeded retry count of 10. Failed._	
