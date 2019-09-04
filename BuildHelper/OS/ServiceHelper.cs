@@ -33,7 +33,7 @@ namespace BuildHelper.OS
 				{
 					WriteStatus($"Starting {serviceName}");
 					sc.Start();
-					sc.WaitForStatus(ServiceControllerStatus.Running);
+					sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(timeout));
 				}
 				if (sc.Status == ServiceControllerStatus.StartPending)
 				{
@@ -75,7 +75,7 @@ namespace BuildHelper.OS
 				{
 					WriteStatus($"Stopping {serviceName} ...");
 					sc.Stop();
-					sc.WaitForStatus(ServiceControllerStatus.Stopped);
+					sc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(timeout));
 				}
 				if (sc.Status == ServiceControllerStatus.StopPending)
 				{
